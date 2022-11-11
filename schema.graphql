@@ -1,6 +1,25 @@
-type ExampleEntity @entity {
+type BuyOrder @entity {
   id: ID!
   count: BigInt!
   buyer: Bytes! # address
   onBehalfOf: Bytes! # address
+  collateral: Bytes # address
+  fee: BigInt
+  purchaseAmount: BigInt
+  returnedAmount: BigInt
+  feePct: BigInt
+  timestamp: BigInt!
+}
+
+type SellOrder @entity {
+  id: ID!
+  count: BigInt!
+  buyer: Bytes! # address
+  onBehalfOf: Bytes! # address
+  collateral: Bytes # address
+  fee: BigInt
+  sellAmount: BigInt
+  returnedAmount: BigInt
+  feePct: BigInt
+  timestamp: BigInt!
 }
