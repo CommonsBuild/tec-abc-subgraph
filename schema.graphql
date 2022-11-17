@@ -9,6 +9,9 @@ type BuyOrder @entity {
   returnedAmount: BigInt
   feePct: BigInt
   timestamp: BigInt!
+  supplyBalance: BigInt!
+  reserveBalance: BigInt!
+  hash: Bytes
 }
 
 type SellOrder @entity {
@@ -22,4 +25,120 @@ type SellOrder @entity {
   returnedAmount: BigInt
   feePct: BigInt
   timestamp: BigInt!
+  supplyBalance: BigInt!
+  reserveBalance: BigInt!
+  hash: Bytes
+}
+
+type ClaimedTokens @entity {
+  id: ID!
+  _token: Bytes! # address
+  _controller: Bytes! # address
+  _amount: BigInt! # uint256
+}
+
+type Transfer @entity {
+  id: ID!
+  _from: Bytes! # address
+  _to: Bytes! # address
+  _amount: BigInt! # uint256
+}
+
+type NewCloneToken @entity {
+  id: ID!
+  _cloneToken: Bytes! # address
+  _snapshotBlock: BigInt! # uint256
+}
+
+type Approval @entity {
+  id: ID!
+  _owner: Bytes! # address
+  _spender: Bytes! # address
+  _amount: BigInt! # uint256
+}
+
+type AuthorizationUsed @entity {
+  id: ID!
+  authorizer: Bytes! # address
+  nonce: Bytes! # bytes32
+}
+type ProxyDeposit @entity {
+  id: ID!
+  sender: Bytes! # address
+  value: BigInt! # uint256
+}
+type SafeExecute @entity {
+  id: ID!
+  sender: Bytes! # address
+  target: Bytes! # address
+  data: Bytes! # bytes
+}
+
+type Execute @entity {
+  id: ID!
+  sender: Bytes! # address
+  target: Bytes! # address
+  ethValue: BigInt! # uint256
+  data: Bytes! # bytes
+}
+
+type AddProtectedToken @entity {
+  id: ID!
+  token: Bytes! # address
+}
+
+type RemoveProtectedToken @entity {
+  id: ID!
+  token: Bytes! # address
+}
+
+type PresignHash @entity {
+  id: ID!
+  sender: Bytes! # address
+  hash: Bytes! # bytes32
+}
+
+type SetDesignatedSigner @entity {
+  id: ID!
+  sender: Bytes! # address
+  oldSigner: Bytes! # address
+  newSigner: Bytes! # address
+}
+
+type ReceiveERC721 @entity {
+  id: ID!
+  token: Bytes! # address
+  operator: Bytes! # address
+  from: Bytes! # address
+  tokenId: BigInt! # uint256
+  data: Bytes! # bytes
+}
+
+type VaultTransfer @entity {
+  id: ID!
+  token: Bytes! # address
+  to: Bytes! # address
+  amount: BigInt! # uint256
+}
+
+type VaultDeposit @entity {
+  id: ID!
+  token: Bytes! # address
+  sender: Bytes! # address
+  amount: BigInt! # uint256
+}
+
+type ScriptResult @entity {
+  id: ID!
+  executor: Bytes! # address
+  script: Bytes! # bytes
+  input: Bytes! # bytes
+  returnData: Bytes! # bytes
+}
+
+type RecoverToVault @entity {
+  id: ID!
+  vault: Bytes! # address
+  token: Bytes! # address
+  amount: BigInt! # uint256
 }

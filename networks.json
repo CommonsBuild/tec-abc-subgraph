@@ -2,6 +2,12 @@
   "xdai": {
     "AugmentedBondingCurve": {
       "address": "0x74ade20c12067e2f9457c037809a73f35694f99f"
+    },
+    "BondedToken": {
+      "address": "0x5dF8339c5E282ee48c0c7cE8A7d01a73D38B3B27"
+    },
+    "BondingCurveReserve": {
+      "address": "0x4a3C145c35Fa0daa58Cb5BD93CE905B086087246"
     }
   }
 }

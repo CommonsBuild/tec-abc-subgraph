@@ -1,0 +1,442 @@
+[
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "string", "name": "" }],
+    "name": "name",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "success" }],
+    "name": "approve",
+    "inputs": [
+      { "type": "address", "name": "_spender" },
+      { "type": "uint256", "name": "_amount" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "creationBlock",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "totalSupply",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "success" }],
+    "name": "transferFrom",
+    "inputs": [
+      { "type": "address", "name": "_from" },
+      { "type": "address", "name": "_to" },
+      { "type": "uint256", "name": "_amount" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "PERMIT_TYPEHASH",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint8", "name": "" }],
+    "name": "decimals",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "changeController",
+    "inputs": [{ "type": "address", "name": "_newController" }],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "balanceOfAt",
+    "inputs": [
+      { "type": "address", "name": "_owner" },
+      { "type": "uint256", "name": "_blockNumber" }
+    ],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "string", "name": "" }],
+    "name": "version",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "createCloneToken",
+    "inputs": [
+      { "type": "string", "name": "_cloneTokenName" },
+      { "type": "uint8", "name": "_cloneDecimalUnits" },
+      { "type": "string", "name": "_cloneTokenSymbol" },
+      { "type": "uint256", "name": "_snapshotBlock" },
+      { "type": "bool", "name": "_transfersEnabled" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "balance" }],
+    "name": "balanceOf",
+    "inputs": [{ "type": "address", "name": "_owner" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "nonces",
+    "inputs": [{ "type": "address", "name": "" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "parentToken",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "generateTokens",
+    "inputs": [
+      { "type": "address", "name": "_owner" },
+      { "type": "uint256", "name": "_amount" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "string", "name": "" }],
+    "name": "symbol",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "totalSupplyAt",
+    "inputs": [{ "type": "uint256", "name": "_blockNumber" }],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "VERSION_HASH",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "TRANSFER_WITH_AUTHORIZATION_TYPEHASH",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "success" }],
+    "name": "transfer",
+    "inputs": [
+      { "type": "address", "name": "_to" },
+      { "type": "uint256", "name": "_amount" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "transfersEnabled",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "EIP712DOMAIN_HASH",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "parentSnapShotBlock",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "success" }],
+    "name": "approveAndCall",
+    "inputs": [
+      { "type": "address", "name": "_spender" },
+      { "type": "uint256", "name": "_amount" },
+      { "type": "bytes", "name": "_extraData" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "" }],
+    "name": "CHAINID",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "destroyTokens",
+    "inputs": [
+      { "type": "address", "name": "_owner" },
+      { "type": "uint256", "name": "_amount" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "permit",
+    "inputs": [
+      { "type": "address", "name": "_owner" },
+      { "type": "address", "name": "_spender" },
+      { "type": "uint256", "name": "_value" },
+      { "type": "uint256", "name": "_deadline" },
+      { "type": "uint8", "name": "_v" },
+      { "type": "bytes32", "name": "_r" },
+      { "type": "bytes32", "name": "_s" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "uint256", "name": "remaining" }],
+    "name": "allowance",
+    "inputs": [
+      { "type": "address", "name": "_owner" },
+      { "type": "address", "name": "_spender" }
+    ],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "claimTokens",
+    "inputs": [{ "type": "address", "name": "_token" }],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "transferWithAuthorization",
+    "inputs": [
+      { "type": "address", "name": "_from" },
+      { "type": "address", "name": "_to" },
+      { "type": "uint256", "name": "_value" },
+      { "type": "uint256", "name": "_validAfter" },
+      { "type": "uint256", "name": "_validBefore" },
+      { "type": "bytes32", "name": "_nonce" },
+      { "type": "uint8", "name": "_v" },
+      { "type": "bytes32", "name": "_r" },
+      { "type": "bytes32", "name": "_s" }
+    ],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "tokenFactory",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bool", "name": "" }],
+    "name": "authorizationState",
+    "inputs": [
+      { "type": "address", "name": "" },
+      { "type": "bytes32", "name": "" }
+    ],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "getDomainSeparator",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "bytes32", "name": "" }],
+    "name": "nameHash",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "function",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "outputs": [],
+    "name": "enableTransfers",
+    "inputs": [{ "type": "bool", "name": "_transfersEnabled" }],
+    "constant": false
+  },
+  {
+    "type": "function",
+    "stateMutability": "view",
+    "payable": false,
+    "outputs": [{ "type": "address", "name": "" }],
+    "name": "controller",
+    "inputs": [],
+    "constant": true
+  },
+  {
+    "type": "constructor",
+    "stateMutability": "nonpayable",
+    "payable": false,
+    "inputs": [
+      { "type": "address", "name": "_tokenFactory" },
+      { "type": "address", "name": "_parentToken" },
+      { "type": "uint256", "name": "_parentSnapShotBlock" },
+      { "type": "string", "name": "_tokenName" },
+      { "type": "uint8", "name": "_decimalUnits" },
+      { "type": "string", "name": "_tokenSymbol" },
+      { "type": "bool", "name": "_transfersEnabled" }
+    ]
+  },
+  { "type": "fallback", "stateMutability": "payable", "payable": true },
+  {
+    "type": "event",
+    "name": "ClaimedTokens",
+    "inputs": [
+      { "type": "address", "name": "_token", "indexed": true },
+      { "type": "address", "name": "_controller", "indexed": true },
+      { "type": "uint256", "name": "_amount", "indexed": false }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Transfer",
+    "inputs": [
+      { "type": "address", "name": "_from", "indexed": true },
+      { "type": "address", "name": "_to", "indexed": true },
+      { "type": "uint256", "name": "_amount", "indexed": false }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "NewCloneToken",
+    "inputs": [
+      { "type": "address", "name": "_cloneToken", "indexed": true },
+      { "type": "uint256", "name": "_snapshotBlock", "indexed": false }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Approval",
+    "inputs": [
+      { "type": "address", "name": "_owner", "indexed": true },
+      { "type": "address", "name": "_spender", "indexed": true },
+      { "type": "uint256", "name": "_amount", "indexed": false }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AuthorizationUsed",
+    "inputs": [
+      { "type": "address", "name": "authorizer", "indexed": true },
+      { "type": "bytes32", "name": "nonce", "indexed": true }
+    ],
+    "anonymous": false
+  }
+]

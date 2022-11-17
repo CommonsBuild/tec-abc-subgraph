@@ -19,9 +19,97 @@ dataSources:
       abis:
         - name: AugmentedBondingCurve
           file: ./abis/AugmentedBondingCurve.json
+        - name: BondedToken
+          file: ./abis/BondedToken.json
+        - name: BondingCurveReserve
+          file: ./abis/BondingCurveReserve.json
       eventHandlers:
-        - event: MakeBuyOrder(indexed address,indexed address,indexed address,uint256,uint256,uint256,uint256)
+        - event: MakeBuyOrder(indexed address,indexed address,indexed
+            address,uint256,uint256,uint256,uint256)
           handler: handleMakeBuyOrder
-        - event: MakeSellOrder(indexed address,indexed address,indexed address,uint256,uint256,uint256,uint256)
+        - event: MakeSellOrder(indexed address,indexed address,indexed
+            address,uint256,uint256,uint256,uint256)
           handler: handleMakeSellOrder
       file: ./src/augmented-bonding-curve.ts
+  - kind: ethereum
+    name: BondedToken
+    network: xdai
+    source:
+      address: "0x5dF8339c5E282ee48c0c7cE8A7d01a73D38B3B27"
+      startBlock: 20086944
+      abi: BondedToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ClaimedTokens
+        - Transfer
+        - NewCloneToken
+        - Approval
+        - AuthorizationUsed
+      abis:
+        - name: BondedToken
+          file: ./abis/BondedToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: ClaimedTokens(indexed address,indexed address,uint256)
+          handler: handleClaimedTokens
+        - event: NewCloneToken(indexed address,uint256)
+          handler: handleNewCloneToken
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: AuthorizationUsed(indexed address,indexed bytes32)
+          handler: handleAuthorizationUsed
+      file: ./src/bonded-token.ts
+  - kind: ethereum
+    name: BondingCurveReserve
+    network: xdai
+    source:
+      address: "0x4a3C145c35Fa0daa58Cb5BD93CE905B086087246"
+      startBlock: 20087409
+      abi: BondingCurveReserve
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - SafeExecute
+        - Execute
+        - AddProtectedToken
+        - RemoveProtectedToken
+        - PresignHash
+        - SetDesignatedSigner
+        - ReceiveERC721
+        - VaultTransfer
+        - VaultDeposit
+        - ScriptResult
+        - RecoverToVault
+      abis:
+        - name: BondingCurveReserve
+          file: ./abis/BondingCurveReserve.json
+      eventHandlers:
+        - event: SafeExecute(indexed address,indexed address,bytes)
+          handler: handleSafeExecute
+        - event: Execute(indexed address,indexed address,uint256,bytes)
+          handler: handleExecute
+        - event: AddProtectedToken(indexed address)
+          handler: handleAddProtectedToken
+        - event: RemoveProtectedToken(indexed address)
+          handler: handleRemoveProtectedToken
+        - event: PresignHash(indexed address,indexed bytes32)
+          handler: handlePresignHash
+        - event: SetDesignatedSigner(indexed address,indexed address,indexed address)
+          handler: handleSetDesignatedSigner
+        - event: ReceiveERC721(indexed address,indexed address,indexed address,uint256,bytes)
+          handler: handleReceiveERC721
+        - event: VaultTransfer(indexed address,indexed address,uint256)
+          handler: handleVaultTransfer
+        - event: VaultDeposit(indexed address,indexed address,uint256)
+          handler: handleVaultDeposit
+        - event: ScriptResult(indexed address,bytes,bytes,bytes)
+          handler: handleScriptResult
+        - event: RecoverToVault(indexed address,indexed address,uint256)
+          handler: handleRecoverToVault
+      file: ./src/bonding-curve-reserve.ts
