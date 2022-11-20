@@ -12,6 +12,8 @@ type BuyOrder @entity {
   supplyBalance: BigInt!
   reserveBalance: BigInt!
   hash: Bytes
+  reserveRatio: BigInt
+  mintPrice: BigInt
 }
 
 type SellOrder @entity {
@@ -28,6 +30,8 @@ type SellOrder @entity {
   supplyBalance: BigInt!
   reserveBalance: BigInt!
   hash: Bytes
+  reserveRatio: BigInt
+  burnPrice: BigInt
 }
 
 type ClaimedTokens @entity {

@@ -1,5 +1,6 @@
-import { BigInt, Address } from "@graphprotocol/graph-ts";
+import { BigInt, Address, log } from "@graphprotocol/graph-ts";
 import {
+  AugmentedBondingCurve,
   MakeBuyOrder,
   MakeSellOrder,
 } from "../generated/AugmentedBondingCurve/AugmentedBondingCurve";
@@ -10,29 +11,44 @@ import { BuyOrder, SellOrder } from "../generated/schema";
 const COLLATERAL_TOKEN = "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d";
 const BONDED_CONTRACT = "0x5dF8339c5E282ee48c0c7cE8A7d01a73D38B3B27";
 const BONDING_CURVE_RESERVE = "0x4a3C145c35Fa0daa58Cb5BD93CE905B086087246";
+const BONDING_CURVE = "0x74ade20c12067e2f9457c037809a73f35694f99f";
 
 export function handleMakeBuyOrder(event: MakeBuyOrder): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
   let entity = BuyOrder.load(event.transaction.from.toHex());
+  const bondingCurveContract = AugmentedBondingCurve.bind(
+    Address.fromString(BONDING_CURVE)
+  );
   const bondedContract = BondedToken.bind(Address.fromString(BONDED_CONTRACT));
   const bondingCurveReserveContract = BondingCurveReserve.bind(
     Address.fromString(BONDING_CURVE_RESERVE)
   );
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
+  const supply = bondedContract.totalSupply();
+  const reserve = bondingCurveReserveContract.balance(
+    Address.fromString(COLLATERAL_TOKEN)
+  );
+  const reserveRatio = bondingCurveContract
+    .try_getCollateralToken(Address.fromString(COLLATERAL_TOKEN))
+    .value.getValue3();
+
+  const mintPrice = bondingCurveContract.try_getStaticPricePPM(
+    supply,
+    reserve,
+    reserveRatio
+  );
+
   if (!entity) {
     entity = new BuyOrder(event.transaction.from.toHex());
-
-    // Entity fields can be set using simple assignments
     entity.count = BigInt.fromI32(0);
   }
 
-  // BigInt and BigDecimal math are supported
-  // entity.count = entity.count + BigInt.fromI32(1)
+  if (mintPrice.reverted) {
+    log.info("getStaticPricePPM reverted", []);
+  } else {
+    entity.mintPrice = mintPrice.value;
+  }
 
-  // Entity fields can be set based on event parameters
   entity.hash = event.transaction.hash;
+  entity.reserveRatio = reserveRatio;
   entity.buyer = event.params.buyer;
   entity.fee = event.params.fee;
   entity.onBehalfOf = event.params.onBehalfOf;
@@ -41,50 +57,47 @@ export function handleMakeBuyOrder(event: MakeBuyOrder): void {
   entity.returnedAmount = event.params.returnedAmount;
   entity.timestamp = event.block.timestamp;
 
-  entity.supplyBalance = bondedContract.totalSupply();
-  entity.reserveBalance = bondingCurveReserveContract.balance(
-    Address.fromString(COLLATERAL_TOKEN)
-  );
-  // Entities can be written to the store with `.save()`
+  entity.supplyBalance = supply;
+  entity.reserveBalance = reserve;
+
   entity.save();
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.getCollateralToken(...)
-  // - contract.sellFeePct(...)
-  // - contract.buyFeePct(...)
-  // - contract.PCT_BASE(...)
-  // - contract.formula(...)
-  // - contract.token(...)
-  // - contract.reserve(...)
-  // - contract.tokenManager(...)
-  // - contract.getStaticPricePPM(...)
 }
 
 export function handleMakeSellOrder(event: MakeSellOrder): void {
   let entity = SellOrder.load(event.transaction.from.toHex());
+  const bondingCurveContract = AugmentedBondingCurve.bind(
+    Address.fromString(BONDING_CURVE)
+  );
   const bondedContract = BondedToken.bind(Address.fromString(BONDED_CONTRACT));
   const bondingCurveReserveContract = BondingCurveReserve.bind(
     Address.fromString(BONDING_CURVE_RESERVE)
+  );
+  const supply = bondedContract.totalSupply();
+  const reserve = bondingCurveReserveContract.balance(
+    Address.fromString(COLLATERAL_TOKEN)
+  );
+  const reserveRatio = bondingCurveContract
+    .try_getCollateralToken(Address.fromString(COLLATERAL_TOKEN))
+    .value.getValue3();
+
+  const burnPrice = bondingCurveContract.try_getStaticPricePPM(
+    supply,
+    reserve,
+    reserveRatio
   );
   if (!entity) {
     entity = new SellOrder(event.transaction.from.toHex());
     entity.count = BigInt.fromI32(0);
   }
+
+  if (burnPrice.reverted) {
+    log.info("getStaticPricePPM reverted", []);
+  } else {
+    entity.burnPrice = burnPrice.value;
+  }
+
   entity.hash = event.transaction.hash;
+  entity.reserveRatio = reserveRatio;
   entity.buyer = event.params.seller;
   entity.fee = event.params.fee;
   entity.onBehalfOf = event.params.onBehalfOf;
@@ -92,10 +105,8 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
   entity.sellAmount = event.params.sellAmount;
   entity.returnedAmount = event.params.returnedAmount;
   entity.timestamp = event.block.timestamp;
-  entity.supplyBalance = bondedContract.totalSupply();
-  entity.reserveBalance = bondingCurveReserveContract.balance(
-    Address.fromString(COLLATERAL_TOKEN)
-  );
+  entity.supplyBalance = supply;
+  entity.reserveBalance = reserve;
 
   entity.save();
 }
