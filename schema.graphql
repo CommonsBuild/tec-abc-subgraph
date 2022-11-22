@@ -7,13 +7,14 @@ type BuyOrder @entity {
   fee: BigInt
   purchaseAmount: BigInt
   returnedAmount: BigInt
-  feePct: BigInt
+  feePct: BigDecimal
   timestamp: BigInt!
   supplyBalance: BigInt!
   reserveBalance: BigInt!
   hash: Bytes
   reserveRatio: BigInt
-  mintPrice: BigInt
+  price: BigInt
+  mintPrice: BigDecimal
 }
 
 type SellOrder @entity {
@@ -25,13 +26,14 @@ type SellOrder @entity {
   fee: BigInt
   sellAmount: BigInt
   returnedAmount: BigInt
-  feePct: BigInt
+  feePct: BigDecimal
   timestamp: BigInt!
   supplyBalance: BigInt!
   reserveBalance: BigInt!
   hash: Bytes
   reserveRatio: BigInt
-  burnPrice: BigInt
+  price: BigInt
+  burnPrice: BigDecimal
 }
 
 type ClaimedTokens @entity {

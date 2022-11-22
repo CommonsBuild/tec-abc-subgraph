@@ -1,4 +1,4 @@
-import { BigInt, Address, log } from "@graphprotocol/graph-ts";
+import { BigInt, BigDecimal, Address, log } from "@graphprotocol/graph-ts";
 import {
   AugmentedBondingCurve,
   MakeBuyOrder,
@@ -7,6 +7,7 @@ import {
 import { BondedToken } from "../generated/BondedToken/BondedToken";
 import { BondingCurveReserve } from "../generated/BondingCurveReserve/BondingCurveReserve";
 import { BuyOrder, SellOrder } from "../generated/schema";
+import { scaleDown } from "./utils/math";
 
 const COLLATERAL_TOKEN = "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d";
 const BONDED_CONTRACT = "0x5dF8339c5E282ee48c0c7cE8A7d01a73D38B3B27";
@@ -29,8 +30,9 @@ export function handleMakeBuyOrder(event: MakeBuyOrder): void {
   const reserveRatio = bondingCurveContract
     .try_getCollateralToken(Address.fromString(COLLATERAL_TOKEN))
     .value.getValue3();
+  const feePct = scaleDown(bondingCurveContract.try_buyFeePct().value);
 
-  const mintPrice = bondingCurveContract.try_getStaticPricePPM(
+  const price = bondingCurveContract.try_getStaticPricePPM(
     supply,
     reserve,
     reserveRatio
@@ -41,16 +43,20 @@ export function handleMakeBuyOrder(event: MakeBuyOrder): void {
     entity.count = BigInt.fromI32(0);
   }
 
-  if (mintPrice.reverted) {
+  if (price.reverted) {
     log.info("getStaticPricePPM reverted", []);
   } else {
-    entity.mintPrice = mintPrice.value;
+    entity.price = price.value;
+    entity.mintPrice = price.value
+      .toBigDecimal()
+      .plus(price.value.toBigDecimal().times(feePct));
   }
 
   entity.hash = event.transaction.hash;
   entity.reserveRatio = reserveRatio;
   entity.buyer = event.params.buyer;
   entity.fee = event.params.fee;
+  entity.feePct = feePct;
   entity.onBehalfOf = event.params.onBehalfOf;
   entity.collateral = event.params.collateral;
   entity.purchaseAmount = event.params.purchaseAmount;
@@ -79,8 +85,9 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
   const reserveRatio = bondingCurveContract
     .try_getCollateralToken(Address.fromString(COLLATERAL_TOKEN))
     .value.getValue3();
+  const feePct = scaleDown(bondingCurveContract.try_sellFeePct().value);
 
-  const burnPrice = bondingCurveContract.try_getStaticPricePPM(
+  const price = bondingCurveContract.try_getStaticPricePPM(
     supply,
     reserve,
     reserveRatio
@@ -90,16 +97,20 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
     entity.count = BigInt.fromI32(0);
   }
 
-  if (burnPrice.reverted) {
+  if (price.reverted) {
     log.info("getStaticPricePPM reverted", []);
   } else {
-    entity.burnPrice = burnPrice.value;
+    entity.price = price.value;
+    entity.burnPrice = price.value
+      .toBigDecimal()
+      .minus(price.value.toBigDecimal().times(feePct));
   }
 
   entity.hash = event.transaction.hash;
   entity.reserveRatio = reserveRatio;
   entity.buyer = event.params.seller;
   entity.fee = event.params.fee;
+  entity.feePct = feePct;
   entity.onBehalfOf = event.params.onBehalfOf;
   entity.collateral = event.params.collateral;
   entity.sellAmount = event.params.sellAmount;
