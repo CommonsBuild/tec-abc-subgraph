@@ -38,16 +38,30 @@ export function handleMakeBuyOrder(event: MakeBuyOrder): void {
     reserveRatio
   );
 
+  const newPrice = bondingCurveContract.try_getStaticPricePPM(
+    supply.plus(event.params.returnedAmount),
+    reserve.plus(event.params.purchaseAmount),
+    reserveRatio
+  );
+
   if (!entity) {
     entity = new BuyOrder(event.transaction.from.toHex());
     entity.count = BigInt.fromI32(0);
   }
 
   if (price.reverted) {
-    log.info("getStaticPricePPM reverted", []);
+    log.info("getStaticPricePPM for price reverted", []);
   } else {
     entity.price = price.value;
     entity.mintPrice = price.value
+      .toBigDecimal()
+      .plus(price.value.toBigDecimal().times(feePct));
+  }
+
+  if (newPrice.reverted) {
+    log.info("getStaticPricePPM for newPrice reverted", []);
+  } else {
+    entity.newPrice = newPrice.value
       .toBigDecimal()
       .plus(price.value.toBigDecimal().times(feePct));
   }
@@ -65,7 +79,6 @@ export function handleMakeBuyOrder(event: MakeBuyOrder): void {
 
   entity.supplyBalance = supply;
   entity.reserveBalance = reserve;
-
   entity.save();
 }
 
@@ -92,6 +105,13 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
     reserve,
     reserveRatio
   );
+
+  const newPrice = bondingCurveContract.try_getStaticPricePPM(
+    supply.minus(event.params.returnedAmount),
+    reserve.minus(event.params.sellAmount),
+    reserveRatio
+  );
+
   if (!entity) {
     entity = new SellOrder(event.transaction.from.toHex());
     entity.count = BigInt.fromI32(0);
@@ -102,6 +122,14 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
   } else {
     entity.price = price.value;
     entity.burnPrice = price.value
+      .toBigDecimal()
+      .minus(price.value.toBigDecimal().times(feePct));
+  }
+
+  if (newPrice.reverted) {
+    log.info("getStaticPricePPM for newPrice reverted", []);
+  } else {
+    entity.newPrice = newPrice.value
       .toBigDecimal()
       .minus(price.value.toBigDecimal().times(feePct));
   }
