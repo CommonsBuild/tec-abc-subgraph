@@ -2,13 +2,13 @@ type BuyOrder @entity {
   id: ID!
   buyer: Bytes! # address
   mintPrice: BigDecimal
+  timestamp: BigInt!
   onBehalfOf: Bytes! # address
   collateral: Bytes # address
   fee: BigInt
   purchaseAmount: BigInt
   returnedAmount: BigInt
   feePct: BigDecimal
-  timestamp: BigInt!
   supplyBalance: BigInt!
   reserveBalance: BigInt!
   hash: Bytes
@@ -19,15 +19,15 @@ type BuyOrder @entity {
 
 type SellOrder @entity {
   id: ID!
-  buyer: Bytes! # address
+  seller: Bytes! # address
   burnPrice: BigDecimal
+  timestamp: BigInt!
   onBehalfOf: Bytes! # address
   collateral: Bytes # address
   fee: BigInt
   sellAmount: BigInt
   returnedAmount: BigInt
   feePct: BigDecimal
-  timestamp: BigInt!
   supplyBalance: BigInt!
   reserveBalance: BigInt!
   hash: Bytes

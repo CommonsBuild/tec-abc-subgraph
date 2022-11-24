@@ -134,7 +134,7 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
 
   entity.hash = event.transaction.hash;
   entity.reserveRatio = reserveRatio;
-  entity.buyer = event.params.seller;
+  entity.seller = event.params.seller;
   entity.fee = event.params.fee;
   entity.feePct = feePct;
   entity.onBehalfOf = event.params.onBehalfOf;
