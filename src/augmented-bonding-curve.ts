@@ -46,7 +46,6 @@ export function handleMakeBuyOrder(event: MakeBuyOrder): void {
 
   if (!entity) {
     entity = new BuyOrder(event.transaction.from.toHex());
-    entity.count = BigInt.fromI32(0);
   }
 
   if (price.reverted) {
@@ -114,7 +113,6 @@ export function handleMakeSellOrder(event: MakeSellOrder): void {
 
   if (!entity) {
     entity = new SellOrder(event.transaction.from.toHex());
-    entity.count = BigInt.fromI32(0);
   }
 
   if (price.reverted) {

@@ -1,7 +1,7 @@
 type BuyOrder @entity {
   id: ID!
-  count: BigInt!
   buyer: Bytes! # address
+  mintPrice: BigDecimal
   onBehalfOf: Bytes! # address
   collateral: Bytes # address
   fee: BigInt
@@ -14,14 +14,13 @@ type BuyOrder @entity {
   hash: Bytes
   reserveRatio: BigInt
   price: BigInt
-  mintPrice: BigDecimal
   newPrice: BigDecimal
 }
 
 type SellOrder @entity {
   id: ID!
-  count: BigInt!
   buyer: Bytes! # address
+  burnPrice: BigDecimal
   onBehalfOf: Bytes! # address
   collateral: Bytes # address
   fee: BigInt
@@ -34,7 +33,6 @@ type SellOrder @entity {
   hash: Bytes
   reserveRatio: BigInt
   price: BigInt
-  burnPrice: BigDecimal
   newPrice: BigDecimal
 }
 
